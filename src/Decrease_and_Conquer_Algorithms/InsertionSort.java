@@ -1,4 +1,4 @@
-package com.algorithms;
+package Decrease_and_Conquer_Algorithms;
 
 import java.util.Scanner;
 
