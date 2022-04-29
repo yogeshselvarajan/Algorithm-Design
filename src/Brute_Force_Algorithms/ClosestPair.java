@@ -1,6 +1,7 @@
 package Brute_Force_Algorithms;
 
 import java.awt.*;
+import java.util.Scanner;
 
 public class ClosestPair
 {
@@ -29,19 +30,17 @@ public class ClosestPair
 
     public static void main(String[] args)
     {
-        // Points created by inheriting the class "Point" of java
-        Point[] points = {
-                new Point(0, 0),
-                new Point(1, 1),
-                new Point(2, 2),
-                new Point(3, 3),
-                new Point(4, 4),
-                new Point(5, 5),
-                new Point(6, 6),
-                new Point(7, 7),
-                new Point(8, 8),
-                new Point(9, 9)
-                };
+        // Get the points from user
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the number of points : ");
+        int n = sc.nextInt();
+        Point[] points = new Point[n];
+        System.out.println("Enter the points : ");
+        for (int i = 0; i < n; i++)
+        {
+            System.out.println("Enter x and y coordinates : ");
+            points[i] = new Point(sc.nextInt(), sc.nextInt());
+        }
 
         // Printing the closest pair of points
         System.out.println("Closest pair of points is " + closestPair(points));

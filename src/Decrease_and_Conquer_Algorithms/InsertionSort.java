@@ -1,43 +1,52 @@
 package Decrease_and_Conquer_Algorithms;
 
+// Write a program that implements Insertion Sort using the following steps:
+// 1. Create an empty sorted array.
+// 2. Insert the first element of the given array into the sorted array.
+// 3. Compare the second element of the given array with the first element of the sorted array.
+// 4. If the second element of the given array is smaller than the first element of the sorted array, then swap them.
+// 5. Continue this process until all the elements of the given array are inserted into the sorted array.
+// 6. Print the sorted array.
+
 import java.util.Scanner;
 
-// Function to implement Insertion Sort Algorithm
-public class InsertionSort
-{
-    public static void sort(int[] array)
+public class InsertionSort {
+    // Function to sort the array using insertion sort algorithm
+    static void insertionSort(int arr[])
     {
-        for (int i = 1; i < array.length; i++)
-        {
-            int j = i;
-            while (j > 0 && array[j - 1] > array[j])
-            {
-                int temp = array[j];
-                array[j] = array[j - 1];
-                array[j - 1] = temp;
-                j--;
-            }
-        }
-    }
+        int n = arr.length;
+        for (int i = 1; i < n; ++i) {
+            int key = arr[i];
+            int j = i - 1;
 
+            // Move elements of arr[0..i-1], that are
+            // greater than key, to one position ahead
+            // of their current position
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j = j - 1;
+            }
+            arr[j + 1] = key;
+        }
+
+    }
     public static void main(String[] args)
     {
-        // Getting input of the array
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the number of elements in the array:");
-        int n = scanner.nextInt();
-        System.out.println("Enter the elements of the array:");
-        int[] array = new int[n];
+        // Get the array from user
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the size of the array : ");
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+        System.out.println("Enter the elements of the array : ");
         for (int i = 0; i < n; i++)
-            array[i] = scanner.nextInt();
+            arr[i] = sc.nextInt();
 
-        // Calling the function
-        sort(array);
+        // Calling the insertion sort function
+        insertionSort(arr);
 
-        // Displaying the result
-        System.out.println("Sorted array:");
-        for (int i : array)
-            System.out.print(array[i] + " ");
-
+        // Print the array
+        System.out.println("The array is");
+        for (int i : arr)
+            System.out.print(i + " ");
     }
 }
