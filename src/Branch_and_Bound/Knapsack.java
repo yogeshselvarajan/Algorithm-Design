@@ -2,6 +2,10 @@ package Branch_and_Bound;
 
 import java.util.Scanner;
 
+// Display the Algorithm for Knapsack Problem using Branch and Bound
+
+
+
 public class Knapsack
 {
 
