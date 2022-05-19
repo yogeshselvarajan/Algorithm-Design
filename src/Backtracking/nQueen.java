@@ -2,94 +2,96 @@ package Backtracking;
 
 import java.util.Scanner;
 
-public class nQueen
+class nQueen
 {
-    /**
-     * Algorithm nQueen(n)
-     * 1. for i = 1 to n
-     * 2.   for j = 1 to n
-     * 3. for k = 1 to n
-     * 4.   if A[i][j] = 0
-     * 5.       A[i][j] = 1
-     * 6.       if isSafe(A, i, j)
-     * 7.           printSolution(A)
-     * 8.       end if
-     * 9.       A[i][j] = 0
-     * 10.   end if
-     * 11. end for
-     * 12. end for
-     * 13. end for
-     * 14. end
-     */
+    private int boardcnt = 0;
 
-    // Function to implement the nQueen algorithm
-    static void nQueen(int n) {
-        int A[][] = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                A[i][j] = 0;
-            }
-        }
-        nQueenUtil(A, 0);
-    }
-
-
-    private static void nQueenUtil(int[][] a, int i)
+    boolean IsBoardOk (char chessboard[][], int row, int col)
     {
-        int n = a.length;
-        if (i == n) {
-            printSolution(a);
-            return;
-        }
-        for (int j = 0; j < n; j++) {
-            if (isSafe(a, i, j)) {
-                a[i][j] = 1;
-                nQueenUtil(a, i + 1);
-                a[i][j] = 0;
-            }
-        }
-    }
 
-    private static boolean isSafe(int[][] a, int i, int j)
-    {
-        int n = a.length;
-        for (int k = 0; k < n; k++) {
-            if (a[i][k] == 1 || a[k][j] == 1) {
+        // Check if there is a queen 'Q' positioned to the left of column col
+        // on the same row.
+        for (int c=0; c<col; c++) {
+            if (chessboard[row][c] == 'Q') {
                 return false;
             }
         }
-        for (int k = 0; k < n; k++) {
-            for (int l = 0; l < n; l++) {
-                if (a[k][l] == 1) {
-                    if (Math.abs(k - i) == Math.abs(l - j)) {
-                        return false;
-                    }
-                }
+
+        // Check if there is queen 'Q' positioned on the upper left diagonal
+        for (int r=row-1, c=col-1; r >= 0 && c >= 0; r--, c--) {
+            if (chessboard[r][c] == 'Q') {
+                return false;
             }
         }
+
+        // Check if there is queen 'Q' positioned on the lower left diagonal
+        for (int r=row+1, c=col-1; c >= 0 && r<chessboard.length; r++, c--) {
+            if (chessboard[r][c] == 'Q') {
+                return false;
+            }
+        }
+
         return true;
     }
 
-    private static void printSolution(int[][] a)
+    void DisplayBoard (char chessboard[][])
     {
-        int n = a.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(a[i][j] + " ");
-            }
-            System.out.println();
+
+        for (int r=0; r<chessboard.length; r++) {
+            for (int c=0; c<chessboard.length; c++) {
+                System.out.print(chessboard[r][c]+" ");
+            } System.out.println();
         }
-        System.out.println();
     }
 
-    public static void main(String[] args)
+    void PlaceNQueens (char chessboard[][], int col)
     {
-        // Get the input from the user
-        System.out.println("Enter the number of queens:");
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        // Number of queens
-        nQueen(n);
+
+        // If all the columns have a queen 'Q', a solution has been found.
+        if (col >= chessboard.length) {
+            ++boardcnt;
+            System.out.println("Board "+boardcnt);
+            System.out.println("========================");
+            DisplayBoard(chessboard);
+            System.out.println("========================");
+
+        } else {
+            // Else try placing the queen on each row of the column and check if the chessboard remains OK.
+            for (int row=0; row<chessboard.length; row++) {
+
+                chessboard[row][col] = 'Q';
+
+                if (IsBoardOk(chessboard, row, col) == true) {
+                    //Chess board was OK, hence try placing the queen 'Q' in the next column.
+                    PlaceNQueens(chessboard, col + 1);
+                }
+                chessboard[row][col] = '.'; // As previously placed queen was not valid, restore '.'
+            }
+        }
     }
 
+    public static void main(String args[])
+    {
+
+        int N;
+
+        Scanner obj_scanner = new Scanner(System.in);  // Create a Scanner object
+        System.out.print("Enter chessboard size : ");
+
+        N = obj_scanner.nextInt();  // Get user input
+
+        char chessboard[][] = new char[N][N];
+
+        for (int r=0; r<N; r++) {
+            for (int c=0; c<N; c++) {
+                chessboard[r][c] = '.';
+            }
+        }
+
+        nQueen obj = new nQueen();
+
+        // Start placing the queen 'Q' from the 0'th column.
+        obj.PlaceNQueens(chessboard, 0);
+    }
 }
+
